@@ -4,6 +4,7 @@ import { useState, useTransition, useId, SetStateAction } from "react";
 import { useAdd, useMultiply } from "@/hooks/arithmeticHooks";
 import { useLocalStorage } from "@/hooks/textHooks";
 import Button from "@/components/button";
+import { redirect } from "next/navigation";
 
 
 const fruits: string[] = ["banana", "apple", "orange", "pepper", "plantain", "blueberry", "grape", "mango", "strawberry"]
@@ -71,13 +72,8 @@ export default function Home() {
       </section> */}
 
       <aside className="flex gap-5">
-        <Link href="/authentication">
-          <Button bgColor="#3704e2" bgHover="#7750fc">Authentication</Button>
-        </Link>
-
-        <Link href="/protected">
-          <Button bgColor="#37040f" bgHover="#d6103a">Protected (Auth Locked)</Button>
-        </Link>
+        <Button bgColor="#3704e2" bgHover="#7750fc" onClick={() => redirect("/authentication")}>Authentication</Button>
+        <Button bgColor="#37040f" bgHover="#d6103a" onClick={() => redirect("/protected")}>Protected (Auth Locked)</Button>
       </aside>
 
       <input type="text" value={inputValue} className="p-2 min-w-[300px] rounded-[8px] my-[10px] border-[2px] border-slate-800" 
