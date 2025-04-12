@@ -1,0 +1,9 @@
+{
+  "editor.tabSize": 2,
+  "files.autoSave": "off",
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingComments": "always",
+  "editor.codeLensFontFamily": "poppins",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": null
+}

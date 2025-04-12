@@ -1,5 +1,5 @@
 "use server"
-import { SignInPage, SignOutPage } from '@/components/authenticationPage';
+import { SignInPage, SignOutPage } from '@/app/authentication/authenticationPage';
 import { auth } from '@/hooks/useAuth'
 
 
