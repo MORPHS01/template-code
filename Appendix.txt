@@ -1,0 +1,17 @@
+Paystack:
+  -take hook from @/hooks/paystackHook.tsx
+  -make sure the key saved in the .env.local file follows the syntax of "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY"
+  -then use the hook wherever it is needed
+
+Authentication(OAuth):
+  -firstly, make sure you install next auth by going into the console and running "npm install next-auth" 
+  -make sure you generate an auth key by going into the console and running "npx auth secret", this automatically creates an auth variable in the .env.local file
+  -go to your separate auth providers and get a client id which should be saved as "AUTH_[PROVIDER]_ID" and a client secrete which should be saved as "AUTH_[PROVIDER]_SECRET"
+  -replicate the useAuth hook in your project
+  -then make sure you make a separate lib/actions.ts file in order to call the signIn and signOut functions from the useAuth hook because it uses a "use server" on the top of the file
+  -then you can call those functions wherever it is needed 
+  -in order to get the session you can import it from the useAuth library and destructure it into where you need it by doing "const session = await auth()", but know that this entire component has to be a server component because it makes use of an async-await functions, so it means you would have to separate every "use client" functions from that component and import it separately
+  -a middleware is advised to protect pages from being accessed randomly, go to "middleware.ts"
+  -in order to import images from the provider you have to add a config option in the "next.config.ts" file
+
+Authentication(credentials):

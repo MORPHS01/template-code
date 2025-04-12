@@ -1,103 +1,117 @@
-import Image from "next/image";
+"use client"
+import Link from "next/link";
+import { useState, useTransition, useId, SetStateAction } from "react";
+import { useAdd, useMultiply } from "@/hooks/arithmeticHooks";
+import { useLocalStorage } from "@/hooks/textHooks";
+import Button from "@/components/button";
+
+
+const fruits: string[] = ["banana", "apple", "orange", "pepper", "plantain", "blueberry", "grape", "mango", "strawberry"]
+
+const gamesList = [
+  {
+    name: "GTA V",
+    description: "open world",
+    price: "30000",
+    rating: 5
+  },
+  {
+    name: "Infamous 2",
+    description: "open world",
+    price: "23000",
+    rating: 3
+  },
+  {
+    name: "Star Wars",
+    description: "action",
+    price: "25000",
+    rating: 4
+  },
+  {
+    name: "Harry Potter",
+    description: "Spell casting",
+    price: "20000",
+    rating: 2
+  },
+  {
+    name: "Endoparasitic",
+    description: "Top-down",
+    price: "10000",
+    rating: 5
+  },
+  {
+    name: "Balatro",
+    description: "rouge like",
+    price: "500",
+    rating: 4
+  },
+]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [inputValue, setInputValue] = useLocalStorage("input", "");
+  const [filteredValue, setFilteredValue] = useState(fruits);
+  const [isPending, startTransition] = useTransition()
+  const id = useId()
+  const id2 = useId()
+  const id3 = useId()
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const value = useMultiply(10, 5)
+  const value2 = useAdd(10, 5)
+
+  const handleChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setInputValue(e.target.value)
+    startTransition(() => setFilteredValue(fruits.filter(fruit => fruit.includes((e.target as HTMLInputElement).value))))
+  }
+  
+
+  return (
+    <main className=""> 
+      {/* <section className="w-[45%] flex justify-center items-center fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[20] p-[1.5rem] rounded-[20px] border border-[#03C9D7] bg-[#0D0C22]">
+        <p className="text-3xl text-[#03C9D7]">Hello World!</p>
+      </section> */}
+
+      <aside className="flex gap-5">
+        <Link href="/authentication">
+          <Button bgColor="#3704e2" bgHover="#7750fc">Authentication</Button>
+        </Link>
+
+        <Link href="/protected">
+          <Button bgColor="#37040f" bgHover="#d6103a">Protected (Auth Locked)</Button>
+        </Link>
+      </aside>
+
+      <input type="text" value={inputValue} className="p-2 min-w-[300px] rounded-[8px] my-[10px] border-[2px] border-slate-800" 
+        onChange={handleChange} 
+      />
+
+      <div>
+        { isPending ?
+          <p>Loading...</p>:
+          filteredValue.map((filter, index) => <p key={index} className="font-bold font-poppins">{filter}</p> )
+        }
+      </div>
+
+      <p>{id.replaceAll(":", "").toLowerCase()}</p>
+      <p>{id2.replaceAll(":", "")}</p>
+      <p>{id3.replaceAll(":", "")}</p>
+
+      <section className="my-4 flex flex-wrap gap-5">
+        {gamesList.map((game, index) =>
+          <Link key={index} href={{pathname: "/:game-details", query: { gameName: game.name, gameDescription: game.description, gameRating: game.rating, gamePrice: game.price }}} className="bg-slate-400 min-w-[120px] min-h-[100px] py-3 px-5 rounded-lg hover:bg-slate-800 text-slate-800 hover:text-slate-400 hover:scale-110 transition-all duration-200 ease-in-out">
+            <h1>{game.name}</h1>
+            <p>{game.description}</p>
+            <p>${game.price}</p>
+            <p>{Array.from({length: game.rating}, () => "* ")}</p>
+          </Link>
+        )}
+      </section>
+
+
+      <p>{value}</p>
+      <p>{value2}</p>
+
+
+
+    </main>
   );
 }
