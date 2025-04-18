@@ -7,7 +7,8 @@ Authentication(OAuth):
   -firstly, make sure you install next auth by going into the console and running "npm install next-auth" 
   -make sure you generate an auth key by going into the console and running "npx auth secret", this automatically creates an auth variable in the .env.local file
   -go to your separate auth providers and get a client id which should be saved as "AUTH_[PROVIDER]_ID" and a client secrete which should be saved as "AUTH_[PROVIDER]_SECRET"
-  -replicate the useAuth hook in your project
+  -replicate the useAuth page, that has the replication of the NextAuth hook with the providers specifically needed for your project
+  -make a file tree of the following structure specifically; /app/api/auth/[...nextauth]/route.ts, then replicate the "handlers" function there
   -then make sure you make a separate lib/actions.ts file in order to call the signIn and signOut functions from the useAuth hook because it uses a "use server" on the top of the file
   -then you can call those functions wherever it is needed 
   -in order to get the session you can import it from the useAuth library and destructure it into where you need it by doing "const session = await auth()", but know that this entire component has to be a server component because it makes use of an async-await functions, so it means you would have to separate every "use client" functions from that component and import it separately
@@ -15,3 +16,8 @@ Authentication(OAuth):
   -in order to import images from the provider you have to add a config option in the "next.config.ts" file
 
 Authentication(credentials):
+  -making sure you have done all the steps in "Authentication(OAuth)"
+  -go to the useAuth page and add your specific credentials needed 
+  -then go to the lib/actions.ts file then make a function for the sign in using credentials
+  -in the form that you want to authenticate users in make sure you have an onSubmit={handleSubmit} on the form tag calling the loginCredentials function  
+  -also, it would be very good to add a useTransition hook wherever you call in all of the authentication functions that you build  

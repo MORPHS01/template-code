@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 
   // to display images from auth providers
   images: {
-    domains: ["avatars.githubusercontent.com"],
+    domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],
   }
 };
 

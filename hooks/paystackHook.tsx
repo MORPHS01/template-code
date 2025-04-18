@@ -97,3 +97,22 @@ export default function PayWithPaystack({ email, amount, disabled, }: { email: s
     </button>
   );
 }
+
+// Make sure to include the ToastContainer in your root page or layout component to display notifications properly
+
+// import { ToastContainer } from "react-toastify";
+// <ToastContainer
+//   toastClassName="z-[9999]"
+//   position="bottom-left"
+//   autoClose={5000}
+//   hideProgressBar={true}
+//   newestOnTop={false}
+//   closeOnClick={false}
+//   rtl={false}
+//   pauseOnFocusLoss
+//   draggable
+//   pauseOnHover
+//   theme="light"
+//   closeButton={true} 
+//   aria-label={undefined}
+// />

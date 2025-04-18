@@ -1,11 +1,10 @@
 "use client"
+import Input from "@/components/input"
 import PayWithPaystack from "@/hooks/paystackHook"
-import { useLocalStorage } from "@/hooks/textHooks"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-// import { useState } from "react"
+import { useState } from "react"
 import { ToastContainer } from "react-toastify"
-// import 'react-toastify/dist/ReactToastify.css';
 
 
 function Game() {
@@ -15,11 +14,10 @@ function Game() {
   const price = searchParams.get("gamePrice")
   const rating = searchParams.get("gameRating")
 
-  const [displayName, setDisplayName] = useLocalStorage("displayName", "");
-  const [email, setEmail] = useLocalStorage("email", "");
+  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
   
   return (
     <div className="flex flex-col gap-3">
@@ -47,12 +45,12 @@ function Game() {
       <Link href="/" className="bg-slate-400 max-w-[120px] max-h-[100px] py-3 px-5 rounded-lg hover:bg-slate-800 text-slate-800 hover:text-slate-400 hover:scale-110 transition-all duration-200 ease-in-out">Go Home</Link>
 
       {/* Paystack implementation */}
-      <div className="flex flex-col p-6 w-[50%]">
+      <div className="flex flex-col gap-7 p-6 w-[50%]">
         <h2 className="text-xl font-semibold mb-4">Pay with Paystack</h2>
-        <input required type="text" placeholder="Please Enter Name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className="p-2 min-w-[300px] rounded-[8px] mb-[10px] border-[2px] border-slate-800"/>
-        <input required type="email" placeholder="Please Enter Email" value={email} onChange={(e) => setEmail(e.target.value)} className="p-2 min-w-[300px] rounded-[8px] mb-[10px] border-[2px] border-slate-800"/>
+        <Input label="Name" required type="text" placeholder="Please Enter Name" value={displayName} onChange={(e) => setDisplayName(e.target.value)}/>
+        <Input label="Email" required type="email" placeholder="Please Enter Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
 
-        <PayWithPaystack email={email} amount={parseInt(price ?? '0')} disabled={emailRegex.test(email) && displayName.length > 2 } />
+        <PayWithPaystack email={email} amount={parseInt(price ?? '0')} disabled={ emailRegex.test(email) && displayName.length > 2 } />
       </div>
     </div>
   )

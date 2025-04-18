@@ -6,7 +6,6 @@ import { auth } from '@/hooks/useAuth'
 
 async function  Authentication() {
   const session = await auth();
-  console.log(session)
 
   return (
     <main>
