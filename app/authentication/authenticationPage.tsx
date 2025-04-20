@@ -3,8 +3,8 @@ import Button, { Spinner } from '@/components/button'
 import Input from '@/components/input';
 import { loginGithub, loginGoogle, logout, loginCredentials } from '@/lib/actions'
 import { redirect } from 'next/navigation'
-import { useState, useTransition } from 'react';
-import { useLocalStorage } from '@/hooks/textHooks';
+import { useActionState, useState, useTransition } from 'react';
+// import { useLocalStorage } from '@/hooks/textHooks';
 import { loginSchema } from '@/schema/zodschema';
 import { user } from '@/hooks/useAuth';
 import ErrorMessage from '@/components/errormessage';
@@ -12,16 +12,19 @@ import ErrorMessage from '@/components/errormessage';
 
 
 export function SignInPage(){
-  const [email, setEmail] = useLocalStorage("formEmail", "");
-  const [password, setPassword] = useLocalStorage("formPassword", "");
+  // const [email, setEmail] = useLocalStorage("formEmail", "");
+  // const [password, setPassword] = useLocalStorage("formPassword", "");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [loadState, setLoadState] = useState(false);
+  // const [loadState, setLoadState] = useState(false);
   const [isPending1, startTransition1] = useTransition()
   const [isPending2, startTransition2] = useTransition()
   const [animationKey, setAnimationKey] = useState(0);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  
+
+  async function handleSubmit(previousState: unknown, formData: FormData) {
+    const email = formData.get("email")
+    const password = formData.get("password")
 
     const isValid = loginSchema.safeParse({ email, password })
 
@@ -36,36 +39,39 @@ export function SignInPage(){
     } else {
       setErrors({});
       if (email === user.email && password === user.password) {
-        setLoadState(true)
+        // setLoadState(true)
         await loginCredentials(email, password);
-        setLoadState(false)
+        // setLoadState(false)
       } else {
         setErrors({inCorrect: "Incorrect Email or Password"});
         setAnimationKey((prevKey) => prevKey + 1)
       }
     }
+    return { message: "Successful", fieldData: {email, password}}
   }
+
+  const [data, action, isPending] = useActionState(handleSubmit, undefined)
 
   return(
     <main>
       <Button bgColor="#ac38ae" bgHover="#d278d4" onClick={() => redirect("/")}>Back to home</Button>
       <p className="font-bold text-xl my-4 flex justify-center tracking-wider">SIGN IN</p>
 
-      <form onSubmit={handleSubmit} className="mt-10 mb-7 max-w-[500px] w-full mx-auto flex flex-col gap-7">
+      <form action={action} className="mt-10 mb-7 max-w-[500px] w-full mx-auto flex flex-col gap-7">
         <div className="flex flex-col gap-2">
-          <Input label="Email" type="email" placeholder="Email" name="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input label="Email" type="email" placeholder="Email" name="email" defaultValue={data?.fieldData?.email as string}/>
           {errors.email && (<ErrorMessage key={animationKey} label={errors.email}/> )}
         </div>
 
         <div className="flex flex-col gap-2">
-          <Input label="Password" type="password" placeholder="Password" name="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <Input label="Password" type="password" placeholder="Password" name="password" defaultValue={data?.fieldData?.password as string}/>
           {errors.password && (<ErrorMessage key={animationKey} label={errors.password}/>)}
         </div>
 
         {errors.inCorrect && <ErrorMessage key={animationKey} label={errors.inCorrect}/>}
 
         <div className="flex justify-center">
-          <Button bgColor="#00c800" bgHover="#37ff37" formType="submit" loading={loadState}>Submit</Button>
+          <Button bgColor="#00c800" bgHover="#37ff37" formType="submit" loading={isPending}>Submit</Button>
           {/* disabled={ !name || !email || !password } */}
         </div>
       </form>
