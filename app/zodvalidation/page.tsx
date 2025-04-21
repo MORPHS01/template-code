@@ -1,15 +1,14 @@
 "use client";
 import { useState } from "react";
 import { z } from "zod";
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
 
 
 const currentDate = new Date();
 
 const randomSchema = z.object({
-  name: z.string().min(4, { message: "Name must be at least 4 characters" }),
+  name: z.string().nonempty({ message: "Username is required"}).min(4, { message: "Name must be at least 4 characters" }),
   date: z.string({message: "Must fill in a date"}).refine(
     (date) => {
       const parsedDate = new Date(date);
@@ -24,8 +23,6 @@ function Zod() {
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-const users = prisma.user.findMany()
-console.log(users)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
