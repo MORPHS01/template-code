@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { JSX, SVGProps } from 'react';
 
 export default function Breadcrumbs() {
   const pathname = usePathname();
@@ -17,16 +18,16 @@ export default function Breadcrumbs() {
   });
 
   return (
-    <nav className="flex items-center space-x-2 text-sm text-gray-600" aria-label="Breadcrumb">
+    <nav className="flex items-center space-x-2 text-sm text-gray-500" aria-label="Breadcrumb">
       <Link href="/" className="hover:text-black flex items-start gap-1">
         <HomeSvg/>
         <span>Home</span>
       </Link>
       {pathArray.map((segment, i) => (
         <span key={i} className="flex items-center gap-2">
-          <span className="font-semibold">&gt;</span>
+          <span><RightArrow/></span>
           {i === pathArray.length - 1 ? (
-            <span className="text-gray-500">{segment.name}</span>
+            <span className="text-gray-900">{segment.name}</span>
           ) : (
             <Link href={segment.href} className="hover:text-black hover:scale-105 transition-all duration-200 ease-in-out">
               {segment.name}
@@ -57,4 +58,17 @@ function HomeSvg(){
     </main>
   )
 }
+
+const RightArrow = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+  <svg
+    width="15px"
+    height="13px"
+    viewBox="0 0 15 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M5 14L12 7.5L5 1" stroke="#000000" strokeLinecap="square" />
+  </svg>
+);
 
