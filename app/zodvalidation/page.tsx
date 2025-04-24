@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
-
+import ErrorMessage from "@/components/errormessage";
 
 
 const currentDate = new Date();
@@ -21,6 +20,7 @@ const randomSchema = z.object({
 function Zod() {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
+  const [animationKey, setAnimationKey] = useState(0);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 
@@ -41,10 +41,9 @@ function Zod() {
         fieldErrors[issue.path[0]] = issue.message;
       });
       setErrors(fieldErrors);
-      console.log("Form submitted Unsuccessfully:", results);
+      setAnimationKey((prevKey) => prevKey + 1); // Trigger re-render for animation
     } else {
       setErrors({});
-      console.log("Form submitted successfully:", results.data);
     }
   };
 
@@ -61,7 +60,7 @@ function Zod() {
             onChange={(e) => setName(e.target.value)}
             className="border p-2 rounded"
           />
-          {errors.name && <p className="text-red-500">{errors.name}</p>}
+          {errors.name && <ErrorMessage label={errors.name} key={animationKey}/>}
         </div>
 
         <div>
@@ -74,7 +73,7 @@ function Zod() {
             onChange={(e) => setDate(e.target.value)}
             className="border p-2 rounded"
           />
-          {errors.date && <p className="text-red-500">{errors.date}</p>}
+          {errors.date && <ErrorMessage label={errors.date} key={animationKey}/>}
         </div>
 
         <button

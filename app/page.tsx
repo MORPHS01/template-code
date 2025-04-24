@@ -44,9 +44,10 @@ const gamesList = [
     name: "Balatro",
     description: "rouge like",
     price: "500",
-    rating: 4
+    rating: 5
   },
 ]
+
 
 export default function Home() {
   const [inputValue, setInputValue] = useLocalStorage("input", "");
@@ -63,14 +64,12 @@ export default function Home() {
     setInputValue(e.target.value)
     startTransition(() => setFilteredValue(fruits.filter(fruit => fruit.includes((e.target as HTMLInputElement).value))))
   }
-  
+
+  // In order to add a specific key from an array of objects
+  const addition = gamesList.reduce((acc, curr) =>  acc + curr.rating, 0);
 
   return (
     <main className=""> 
-      {/* <section className="w-[45%] flex justify-center items-center fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[20] p-[1.5rem] rounded-[20px] border border-[#03C9D7] bg-[#0D0C22]">
-        <p className="text-3xl text-[#03C9D7]">Hello World!</p>
-      </section> */}
-
       <aside className="flex gap-5">
         <Button bgColor="#3704e2" bgHover="#7750fc" onClick={() => redirect("/authentication")}>Authentication</Button>
         <Button bgColor="#37040f" bgHover="#d6103a" onClick={() => redirect("/protected")}>Protected (Auth Locked)</Button>
@@ -105,6 +104,7 @@ export default function Home() {
 
       <p>{value}</p>
       <p>{value2}</p>
+      <p>{addition}</p>
 
 
 
