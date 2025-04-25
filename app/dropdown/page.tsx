@@ -15,9 +15,9 @@ const colors = ["red", "blue", "green", "yellow", "purple", "pink"];
 
 export default function FilteredProductList() {
   const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string[]>([]);
 
-  const filtered = selectedPrice && selectedColor ? products.filter((p) => p?.price <= selectedPrice) && products.filter((p) => p?.color === selectedColor) : products;
+  const filtered = selectedPrice && selectedColor ? products.filter((p) => p?.price <= selectedPrice) && products.filter((p) => selectedColor.includes(p?.color)) : products;
 
   return (
     <div className="max-w-md mx-auto p-6 space-y-6">
@@ -29,12 +29,13 @@ export default function FilteredProductList() {
         placeholder="Filter by max price"
       />
 
-      <DropdownMenu
+      <DropdownMenu<string>
+        type="multiple"
         options={colors}
         selected={selectedColor}
         onSelect={setSelectedColor}
         placeholder="Filter by color"
-        className="w-full"
+        className="max-w-[300px]"
       />
       
       <div className="space-y-3">
