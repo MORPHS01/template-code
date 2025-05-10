@@ -18,8 +18,8 @@ export default function Breadcrumbs() {
   });
 
   return (
-    <nav className="flex items-center space-x-2 text-sm text-gray-500" aria-label="Breadcrumb">
-      <Link href="/" className="hover:text-black flex items-start gap-1">
+    <nav className="flex items-center space-x-2 text-sm text-gray-500 dark:text-[#b4b6be]" aria-label="Breadcrumb">
+      <Link href="/" className="hover:text-black dark:hover:text-white flex items-center gap-1">
         <HomeSvg/>
         <span>Home</span>
       </Link>
@@ -27,9 +27,9 @@ export default function Breadcrumbs() {
         <span key={i} className="flex items-center gap-2">
           <span><RightArrow/></span>
           {i === pathArray.length - 1 ? (
-            <span className="text-gray-900">{segment.name}</span>
+            <span className="text-gray-950 dark:text-gray-50">{segment.name}</span>
           ) : (
-            <Link href={segment.href} className="hover:text-black hover:scale-105 transition-all duration-200 ease-in-out">
+            <Link href={segment.href} className="hover:text-black dark:hover:text-white transition-all duration-200 ease-in-out">
               {segment.name}
             </Link>
           )}
@@ -43,7 +43,7 @@ function HomeSvg(){
   return (
     <main className="">
       <svg
-        fill="#000000"
+        className="fill-[#17181C] dark:fill-[#F4F9FD]"
         xmlns="http://www.w3.org/2000/svg"
         width="15px"
         height="15px"
@@ -66,9 +66,10 @@ const RightArrow = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) =>
     viewBox="0 0 15 15"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="stroke-[#000000] dark:stroke-[#cfd0d6]"
     {...props}
   >
-    <path d="M5 14L12 7.5L5 1" stroke="#000000" strokeLinecap="square" />
+    <path d="M5 14L12 7.5L5 1" strokeLinecap="square" />
   </svg>
 );
 

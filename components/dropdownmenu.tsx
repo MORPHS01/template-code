@@ -153,20 +153,6 @@ const CheckBoxTicked = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 
 // Add this to your css file
 
-// @keyframes fadeIn {
-//   from {
-//     opacity: 0;
-//     transform: translateY(-10px);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// }
-// .fade-in {
-//   animation: fadeIn 0.3s ease-out;
-// }
-
 // ::-webkit-scrollbar {
 //   width: 10px;
 //   background-color: transparent;

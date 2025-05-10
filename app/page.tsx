@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useTransition, useId, SetStateAction } from "react";
 import { useAdd, useMultiply } from "@/hooks/arithmeticHooks";
-import { useLocalStorage } from "@/hooks/textHooks";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import Button from "@/components/button";
 import { redirect } from "next/navigation";
 
