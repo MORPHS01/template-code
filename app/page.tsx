@@ -43,7 +43,7 @@ const gamesList = [
   {
     name: "Balatro",
     description: "rouge like",
-    price: "50",
+    price: "100",
     rating: 5
   },
 ]
